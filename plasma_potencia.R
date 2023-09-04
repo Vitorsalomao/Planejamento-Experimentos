@@ -72,3 +72,17 @@ leveneTest(plasmac.aov)
 #Teste Durbin–Watson
 set.seed(474028)
 durbinWatsonTest(plasmac.aov) # Ele utiliza Bootstrap, então é necessário fixar uma semente
+
+# Avaliando a comparação entre as médias
+##H0: mi=mj
+##H1: mi != mj
+pairwise.t.test(pdata$plasmac, pdata$potencia, p.adjust.method = 'bonf')
+
+#Intervalo e coniança para a diferença das médias
+#Teste Tukey 
+Tk <- TukeyHSD(plasmac.aov);Tk 
+plot(Tk, las = 1) #Gráfico para todas diferenças das médias; Se o intevalo de confiança não contém o zero rejeita-se H0
+
+#ANALISANDO O CONTRASTE
+stc <- ScheffeTest(plasmac.aov);stc
+stc <- ScheffeTest(plasmac.aov, contrasts = matrix(c(1,-1,0,0,1,-0.5, -0.5,0, 0, 0, 1, -1), ncol=3));stc
