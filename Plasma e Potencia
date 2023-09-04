@@ -13,3 +13,7 @@ Intervalo de confiança:
 
 #Contraste
 http://leg.ufpr.br/~walmes/pacotes/labestData-vignettes/anaExpDIC.html #BASE PULGÃO
+-Scheffe
+#Utilizar quando não ocorreu o planejamento do experimento previamente
+#Teste Tukey e Análise de Variância
+#LSD.test(model) - Fisher LSD(Least significant difference)
