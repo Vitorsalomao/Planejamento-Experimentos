@@ -1,0 +1,57 @@
+rm(list = ls())
+install.packages("agricolae")
+library(agricolae)
+install.packages("palmerpenguins")
+library(palmerpenguins)
+library(dplyr)
+library(ggplot2)
+
+lote = c(rep('lote1',5), rep('lote2',5), rep('lote3',5),rep('lote4', 5), rep('lote5',5))
+op = c(rep('operador1',5),rep('operador2',5),rep('operador3',5),rep('operador4',5),rep('operador5',5))
+tto = c('a','b','c','d','e',
+        'b','c','d','e','a',
+        'c', 'd', 'e', 'a', 'b',
+        'd', 'e', 'a', 'b', 'c',
+        'e', 'a', 'b', 'c', 'd')
+y = c(-1, -5,-6, -1, -1,
+      -8, -1, 5, 2, 11,
+      -7, 13, 1, 2,-4,
+       1, 6, 1, -2, -3,
+      -3, 5, -5, 4, 6)
+length(y)
+operador = gl(5,1,25)
+print(operador)
+foguete.data <- data.frame(y, operador, lote, tto)
+View(foguete.data)
+foguete.aov = aov(y ~ factor(op) + factor(lote) + tto)
+summary(foguete.aov)
+foguete.aov <- aov(Y ~ factor(lat) + factor(tto) + operador)
+plot.design(y ~ factor(operador) + factor(lote) + factor(tto))
+par(mfrow = c(2,2))
+plot(foguete.aov)
+
+
+#BLOCOS INCOMPLETOS
+catalizador <- c(rep('catalizador1',4),rep('catalizador2',4),rep('catalizador3',4),rep('catalizador4',4))
+y <- c(73,74,NA, 71,
+      NA, 75, 67, 72,
+      73, 75, 68, NA,
+      75, NA, 72, 75)
+bloco <- gl(4,1,16)
+length(bloco)
+print(bloco)
+incompleto.data <- data.frame(y, bloco, catalizador)
+incompleto.aov  = aov(y ~ catalizador + bloco + Error(bloco))
+incompleto.aov1  = aov(y ~ catalizador + bloco + Error(catalizador))
+
+summary(incompleto.aov)
+summary(incompleto.aov1)
+
+par(mfrow = c(2,2))
+plot(incompleto.aov)
+
+incompleto.na <- na.omit(incompleto.data)
+out= BIB.test(incompleto.na$catalizador, incompleto.na$catalizador, incompleto.na$y, test = 'tukey', group = FALSE)  
+print(out)
+
+plot.design(y ~ factor(catalizador) + )
