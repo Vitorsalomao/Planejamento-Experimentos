@@ -1,0 +1,39 @@
+install.packages("SixSigma")
+install.packages("AlgDesign")
+install.packages("FrF2")
+exp <- expand.grid(A = gl(2, 1 , labels = c('-', '+')),
+                   B = gl(2, 1,labels = c('-', '+') ))
+library(SixSigma)
+library(AlgDesign)
+library(FrF2)
+gen.factorial(c(3,2,3), center = T, varNames = c('F1', 'F2', 'F3'))
+
+bateria <- expand.grid(A = gl(3,1, labels = c('1','2','3')),
+                       B = gl(3,1, labels = c('15', '70', '125')) )
+bateria_data <- data.frame(repl = rep(1:4, each = 9),
+                           rbind(bateria))                  
+bateria_data$y <- c(130, 150, 138,
+                    34, 136, 174,
+                    20, 25, 96,
+                    155, 188, 110,
+                    40, 122, 120,
+                    70, 70, 104,
+                    74, 159, 168,
+                    80, 106, 150,
+                    82, 58, 82,
+                    180, 126, 160,
+                    75, 115, 139,
+                    58, 45, 60)
+
+bateria.aov <- aov(y ~ A*B, bateria_data)
+summary(bateria.aov)
+
+model.tables(bateria.aov, 'effects')
+plot.design(y ~ A*B, data = bateria_data)
+
+#3 maior e 1 menor para o fator A; 15 maior e 125 o menor para o fator B. 
+
+interaction.plot(bateria_data$B, bateria_data$A, bateria_data$y)
+plot(bateria.aov)
+
+DanielPlot(bateria.aov)
